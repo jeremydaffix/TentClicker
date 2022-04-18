@@ -29,6 +29,11 @@ namespace clicker
             {
                 _onClickSuccess?.Invoke();
             }
+
+            else
+            {
+                UIManager.Instance.HideUpgradeMenu();
+            }
         }
     }
 }
