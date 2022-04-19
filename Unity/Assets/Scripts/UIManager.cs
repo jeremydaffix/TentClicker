@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.EventSystems;
+using UnityEngine.UI;
 
 public class UIManager : MonoBehaviour
 {
@@ -10,8 +12,9 @@ public class UIManager : MonoBehaviour
     [SerializeField] GameObject _upgradeMenu;
     [SerializeField] TMP_Text _resourcesText;
 
-    //[SerializeField] TMP_Text _clickUpgradeDescriptionText, _clickUpgradeLevelText, _clickUpgradePriceText;
-    //[SerializeField] TMP_Text _autoGatherUpgradeDescriptionText, _autoGatherUpgradeLevelText, _autoGatherUpgradePriceText;
+    [SerializeField] TMP_Text _clickUpgradeDescriptionText, _clickUpgradeLevelText, _clickUpgradePriceText;
+    [SerializeField] TMP_Text _autoGatherUpgradeDescriptionText, _autoGatherUpgradeLevelText, _autoGatherUpgradePriceText;
+    [SerializeField] Button _clickUpgradeButton, _autoGatherUpgradeButton;
 
 
     void OnEnable()
@@ -28,7 +31,7 @@ public class UIManager : MonoBehaviour
 
     void Start()
     {
-        
+        HideUpgradeMenu();
     }
 
     void Update()
@@ -46,48 +49,83 @@ public class UIManager : MonoBehaviour
     }
 
 
-    /*public void UpdateUpgrades()
+    public void UpdateUpgradesItems()
     {
-        if(_clickUpgradeLevelText != null)
+        SetUpgradesText(_clickUpgradeDescriptionText, $"{GameManager.Instance.CalculateClickGather()} per click",
+                        _clickUpgradeLevelText, GameManager.Instance.ClickUpgradeLevel,
+                        _clickUpgradePriceText);
+
+        SetUpgradesText(_autoGatherUpgradeDescriptionText, $"{GameManager.Instance.CalculateAutoGather()} every {GameManager.Instance.AutoGatherTime}s",
+                        _autoGatherUpgradeLevelText, GameManager.Instance.AutoGathererUpgradeLevel,
+                        _autoGatherUpgradePriceText);
+
+        if(_clickUpgradeButton != null && GameManager.Instance.ClickUpgradeLevel >= GameManager.Instance.MaxUpgradeLevel)
         {
-            _clickUpgradeLevelText.SetText("Level " + GameManager.Instance.ClickUpgradeLevel);
+            _clickUpgradeButton.enabled = false;
         }
 
-        if (_autoGatherUpgradeLevelText != null)
+        if (_autoGatherUpgradeButton != null && GameManager.Instance.AutoGathererUpgradeLevel >= GameManager.Instance.MaxUpgradeLevel)
         {
-            _autoGatherUpgradeLevelText.SetText("Level " + GameManager.Instance.AutoGathererUpgradeLevel);
+            _autoGatherUpgradeButton.enabled = false;
+        }
+    }
+
+    void SetUpgradesText(TMP_Text descriptionText, string description, TMP_Text levelText, int level, TMP_Text priceText)
+    {
+        if (descriptionText != null)
+        {
+            descriptionText.SetText(description);
         }
 
-        if (_clickUpgradePriceText != null)
+        if (levelText != null)
         {
-            _clickUpgradePriceText.SetText("Upgrade for " + GameManager.Instance.UpgradePrice);
+            levelText.SetText("Level " + level);
         }
 
-        if (_autoGatherUpgradePriceText != null)
+        if (priceText != null)
         {
-            _autoGatherUpgradePriceText.SetText("Upgrade for " + GameManager.Instance.UpgradePrice);
+            priceText.SetText("Upgrade for " + GameManager.Instance.UpgradePrice);
         }
-    }*/
+    }
 
 
     public void ShowUpgradeMenu()
     {
-        Debug.Log("SHOW MENU");
+        //Debug.Log("SHOW MENU");
 
         if (_upgradeMenu != null && !_upgradeMenu.activeInHierarchy)
         {
+            UpdateUpgradesItems();
             _upgradeMenu.SetActive(true);
         }
     }
 
     public void HideUpgradeMenu()
     {
-        Debug.Log("HIDE MENU");
+        //Debug.Log("HIDE MENU");
 
         if (_upgradeMenu != null && _upgradeMenu.activeInHierarchy)
         {
             _upgradeMenu.SetActive(false);
         }
+    }
+
+
+    public bool IsPointerOverUI()
+    {
+        PointerEventData eventData = new PointerEventData(EventSystem.current);
+        eventData.position = Input.mousePosition;
+        List<RaycastResult> raysastResults = new List<RaycastResult>();
+        EventSystem.current.RaycastAll(eventData, raysastResults);
+
+        foreach (RaycastResult raysastResult in raysastResults)
+        {
+            if (raysastResult.gameObject.layer == LayerMask.NameToLayer("UI"))
+            {
+                return true;
+            }
+        }
+        return false;
     }
 
 

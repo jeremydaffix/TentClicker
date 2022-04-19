@@ -1,5 +1,7 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.EventSystems;
 
 namespace clicker
 {
@@ -19,7 +21,7 @@ namespace clicker
 
         protected void Update()
         {
-            if (!Input.GetMouseButtonDown(0))
+            if (!Input.GetMouseButtonDown(0) || UIManager.Instance.IsPointerOverUI())
             {
                 return;
             }
@@ -35,5 +37,8 @@ namespace clicker
                 UIManager.Instance.HideUpgradeMenu();
             }
         }
+
+
+
     }
 }
