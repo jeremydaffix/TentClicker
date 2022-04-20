@@ -17,14 +17,12 @@ public class UIManager : MonoBehaviour
     #region Champs exposés
 
     [Header("UI Elements in scene")]
-    [SerializeField] GameObject _upgradeMenu;
-    [SerializeField] TMP_Text _resourcesText;
-
+    [SerializeField] GameObject _upgradeMenu; // root du menu
+    [SerializeField] TMP_Text _resourcesText; // texte du compteur de ressources
     [Header("UI Elements in menu")]
     [SerializeField] TMP_Text _clickUpgradeDescriptionText, _clickUpgradeLevelText, _clickUpgradePriceText; // textes click upgrade
     [SerializeField] TMP_Text _autoGatherUpgradeDescriptionText, _autoGatherUpgradeLevelText, _autoGatherUpgradePriceText; // textes autogather upgrade
     [SerializeField] Button _clickUpgradeButton, _autoGatherUpgradeButton; // boutons
-
     [Header("Save/Load popup parameters")]
     [SerializeField] GameObject _popup; // root de la popup
     [SerializeField] TMP_Text _popupTitle, _popupMessage; // textes de la popup
