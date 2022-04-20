@@ -8,11 +8,11 @@ using System.Collections.Generic;
 [System.Serializable]
 public class SaveGameSerializable
 {
-    public string id;
-    public int score;
-    public int click_level;
-    public int autogather_level;
-    public List<DecorationSerializable> decorations;
+    public string id; // identifiant de la sauvegarde (6 caractères alphanumériques)
+    public int score; // score / nombre de ressources obtenues
+    public int click_level; // niveau de l'upgrade click
+    public int autogather_level; // niveau de l'upgrade autogather
+    public List<DecorationSerializable> decorations; // liste des décorations achetées
 
     public override string ToString()
     {

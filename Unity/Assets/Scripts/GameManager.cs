@@ -55,11 +55,6 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    void FixedUpdate()
-    {
-        
-    }
-
     #endregion
 
 
@@ -120,16 +115,9 @@ public class GameManager : MonoBehaviour
     #endregion
 
 
-    
-
-
     #region Propriétés
 
     public static GameManager Instance { get => _instance; set => _instance = value; }
-
-    //public int Resources { get => _resources; set => _resources = value; }
-    //public int ClickUpgradeLevel { get => _clickUpgradeLevel; set => _clickUpgradeLevel = value; }
-   // public int AutoGathererUpgradeLevel { get => _autoGatherUpgradeLevel; set => _autoGatherUpgradeLevel = value; }
     public int AutoGatherTime { get => _autoGatherTime; set => _autoGatherTime = value; }
     public int UpgradePrice { get => _upgradePrice; set => _upgradePrice = value; }
     public int MaxUpgradeLevel { get => _maxUpgradeLevel; set => _maxUpgradeLevel = value; }

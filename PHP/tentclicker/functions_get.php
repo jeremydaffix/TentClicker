@@ -31,7 +31,7 @@
 	
 	function SelectGame($id)
 	{
-		// *** 1ère partie : récupération dans l'entrée dans la table game
+		// *** 1ère partie : récupération de l'entrée dans la table game
 
 		global $pdo;
 

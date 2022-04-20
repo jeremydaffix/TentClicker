@@ -8,10 +8,10 @@ using System.Collections.Generic;
 [System.Serializable]
 public class DecorationSerializable
 {
-    public string id_game;
-    public int type;
-    public int row;
-    public int col;
+    public string id_game; // identifiant de la sauvegarde associée à la décoration
+    public int type; // type de la décoration
+    public int row; // ligne de la décoration
+    public int col; // colonne de la décoration
 
     public override string ToString()
     {
