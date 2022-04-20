@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 
 /// <summary>
-/// Version serializable de DecorationSerializable.
+/// Version serializable de DecorationSerializable  (pour récupérer sous forme d'objets le json retourné par le serveur).
 /// Correspond à la table decoration de la base de données.
 /// </summary>
 [System.Serializable]

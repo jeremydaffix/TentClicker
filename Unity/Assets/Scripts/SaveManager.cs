@@ -42,6 +42,7 @@ public class SaveManager : MonoBehaviour
         form.AddField("score", GameManager.Instance.SaveGame.Resources);
         form.AddField("clickUpgradeLevel", GameManager.Instance.SaveGame.ClickUpgradeLevel);
         form.AddField("autoGatherUpgradeLevel", GameManager.Instance.SaveGame.AutoGatherUpgradeLevel);
+        form.AddField("decorations", JsonFromDecorations());
 
         using (UnityWebRequest webRequest = UnityWebRequest.Post(uri, form))
         {
@@ -63,7 +64,7 @@ public class SaveManager : MonoBehaviour
 
                 if (result.Length != 6) // pas d'identifiant retourné : erreur
                 {
-                    // Debug.Log("ERROR: " + result);
+                    Debug.Log("ERROR: " + result);
                     UIManager.Instance.SetPopupMessage("Error: no ID returned");
                 }
 
@@ -124,6 +125,28 @@ public class SaveManager : MonoBehaviour
         }
     }
 
+
+    string JsonFromDecorations()
+    {
+        string array = "";
+
+        foreach(DecorationModel decoration in GameManager.Instance.SaveGame.Decorations)
+        {
+            if (array != "")
+                array += ", ";
+
+            int type = (int)decoration.Type;
+            string obj = $"{{\"type\": \"{type}\", \"row\": \"{decoration.Row}\", \"col\": \"{decoration.Col}\"}}";
+
+            array += obj;
+        }
+
+        array = $"[{array}]";
+
+        //Debug.Log("JsonFromDecorations = " + array);
+
+        return array;
+    }
 
     public static SaveManager Instance { get => _instance; set => _instance = value; }
 

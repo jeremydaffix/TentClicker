@@ -8,11 +8,18 @@ using UnityEngine;
 [System.Serializable] // serializable pour avoir la liste des champs dans l'Inspector
 public class SaveGameModel
 {
-    [SerializeField] int _resources = 0; // ressources / score
-    [SerializeField] int _clickUpgradeLevel = 0; // niveau actuel de l'upgrade clic
-    [SerializeField] int _autoGatherUpgradeLevel = 0; // niveau actuel de l'upgrade autogather
+    [SerializeField] int _resources; // ressources / score
+    [SerializeField] int _clickUpgradeLevel; // niveau actuel de l'upgrade clic
+    [SerializeField] int _autoGatherUpgradeLevel; // niveau actuel de l'upgrade autogather
 
     [SerializeField] List<DecorationModel> _decorations = new List<DecorationModel>(); // liste des décorations
+
+    public SaveGameModel(int resources = 0, int clickUpgradeLevel = 0, int autoGatherUpgradeLevel = 0)
+    {
+        _resources = resources;
+        _clickUpgradeLevel = clickUpgradeLevel;
+        _autoGatherUpgradeLevel = autoGatherUpgradeLevel;
+    }
 
     #region Gestion des ressources
 

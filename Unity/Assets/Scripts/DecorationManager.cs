@@ -79,7 +79,7 @@ public class DecorationManager : MonoBehaviour
 
         if (GameManager.Instance.SaveGame.TakeResources(GameManager.Instance.UpgradePrice))
         {
-            Debug.Log("BUY " + type);
+            //Debug.Log("BUY " + type);
 
             UIManager.Instance.UpdateResources();
 
@@ -110,6 +110,8 @@ public class DecorationManager : MonoBehaviour
                 deco.transform.SetParent(parent);
                 deco.transform.localPosition = new Vector3(0f, 0.5f, 0f);
                 deco.transform.localRotation = Quaternion.identity;
+
+                GameManager.Instance.SaveGame.Decorations.Add(new DecorationModel(type, row, col));
             }
         }
     }

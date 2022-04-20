@@ -17,6 +17,13 @@ public class DecorationModel
     [SerializeField] int _col;
 
 
+    public DecorationModel(DecorationType type = DecorationType.Pine1, int row = 0, int col = 0)
+    {
+        _type = type;
+        _row = row;
+        _col = col;
+    }
+
 
     public DecorationType Type { get => _type; set => _type = value; }
     public int Row { get => _row; set => _row = value; }
