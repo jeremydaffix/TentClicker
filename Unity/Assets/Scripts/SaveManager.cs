@@ -39,9 +39,9 @@ public class SaveManager : MonoBehaviour
         UIManager.Instance.ShowPopup("Save game", "Saving in progress...");
 
         WWWForm form = new WWWForm();
-        form.AddField("score", GameManager.Instance.Resources);
-        form.AddField("clickUpgradeLevel", GameManager.Instance.ClickUpgradeLevel);
-        form.AddField("autoGatherUpgradeLevel", GameManager.Instance.AutoGathererUpgradeLevel);
+        form.AddField("score", GameManager.Instance.SaveGame.Resources);
+        form.AddField("clickUpgradeLevel", GameManager.Instance.SaveGame.ClickUpgradeLevel);
+        form.AddField("autoGatherUpgradeLevel", GameManager.Instance.SaveGame.AutoGatherUpgradeLevel);
 
         using (UnityWebRequest webRequest = UnityWebRequest.Post(uri, form))
         {
@@ -100,7 +100,7 @@ public class SaveManager : MonoBehaviour
             {
                 Debug.Log(":\nReceived: " + webRequest.downloadHandler.text);
 
-                SaveSerializable game = JsonUtility.FromJson<SaveSerializable>(webRequest.downloadHandler.text);
+                SaveGameSerializable game = JsonUtility.FromJson<SaveGameSerializable>(webRequest.downloadHandler.text);
 
                 if(game != null)
                 {
@@ -108,9 +108,9 @@ public class SaveManager : MonoBehaviour
 
                     Debug.Log(game.ToString());
 
-                    GameManager.Instance.ClickUpgradeLevel = game.click_level;
-                    GameManager.Instance.AutoGathererUpgradeLevel = game.autogather_level;
-                    GameManager.Instance.Resources = game.score;
+                    GameManager.Instance.SaveGame.ClickUpgradeLevel = game.click_level;
+                    GameManager.Instance.SaveGame.AutoGatherUpgradeLevel = game.autogather_level;
+                    GameManager.Instance.SaveGame.Resources = game.score;
 
                     UIManager.Instance.UpdateUpgradesItems();
                     UIManager.Instance.UpdateResources();   

@@ -18,9 +18,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] int _maxUpgradeLevel = 10; // limite du niveau des upgrades
 
     [Header("Game variables (displayed for debugging purposes)")]
-    [SerializeField] int _resources = 0; // ressources / score
-    [SerializeField] int _clickUpgradeLevel = 0; // niveau actuel de l'upgrade clic
-    [SerializeField] int _autoGatherUpgradeLevel = 0; // niveau actuel de l'upgrade autogather
+    [SerializeField] SaveGameModel _saveGame;
     #endregion
 
 
@@ -65,14 +63,15 @@ public class GameManager : MonoBehaviour
     #endregion
 
 
-    #region Gestion des upgrades
+    #region Gestion des événements liés aux upgrades
 
     /// <summary>
     /// Evénement appelé lors d'un clic de récolte.
     /// </summary>
     public void ClickGather()
     {
-        AddResources(CalculateClickGather()); // récupération des ressources selon le niveau de l'upgrade
+        SaveGame.AddResources(SaveGame.CalculateClickGatherRessources()); // récupération des ressources selon le niveau de l'upgrade
+        UIManager.Instance.UpdateResources();
     }
 
     /// <summary>
@@ -80,36 +79,11 @@ public class GameManager : MonoBehaviour
     /// </summary>
     void AutoGather()
     {
-        if (AutoGathererUpgradeLevel > 0) // au niveau 0 on ne récolte rien
+        if (SaveGame.AutoGatherUpgradeLevel > 0) // au niveau 0 on ne récolte rien
         {
-            AddResources(CalculateAutoGather()); // récupération des ressources selon le niveau de l'upgrade
+            SaveGame.AddResources(SaveGame.CalculateAutoGatherRessources()); // récupération des ressources selon le niveau de l'upgrade
+            UIManager.Instance.UpdateResources();
         }
-    }
-
-
-    /// <summary>
-    /// Calcul du nombre de ressources à récupérer lors du clic, selon le niveau de l'upgrade actuel.
-    /// </summary>
-    /// <returns>Nombre de ressources à récupérer.</returns>
-    public int CalculateClickGather()
-    {
-        return (int)Mathf.Pow(2, ClickUpgradeLevel);
-    }
-
-    /// <summary>
-    /// Calcul du nombre de ressources à récupérer lors de l'autogather, selon le niveau de l'upgrade actuel.
-    /// </summary>
-    /// <returns>Nombre de ressources à récupérer.</returns>
-    public int CalculateAutoGather()
-    {
-        int rsrc = 0;
-
-        if (AutoGathererUpgradeLevel > 0) // niveau 0 = 0 ressources
-        {
-           rsrc = (int)Mathf.Pow(2, AutoGathererUpgradeLevel - 1);
-        }
-
-        return rsrc;
     }
 
 
@@ -119,11 +93,12 @@ public class GameManager : MonoBehaviour
     /// </summary>
     public void BuyClickUpgrade()
     {
-        if(ClickUpgradeLevel < MaxUpgradeLevel && TakeResources(UpgradePrice))
+        if(SaveGame.ClickUpgradeLevel < MaxUpgradeLevel && SaveGame.TakeResources(UpgradePrice))
         {
-            ++ClickUpgradeLevel;
+            ++SaveGame.ClickUpgradeLevel;
 
             UIManager.Instance.UpdateUpgradesItems(); // maj UI
+            UIManager.Instance.UpdateResources();
         }
     }
 
@@ -133,63 +108,32 @@ public class GameManager : MonoBehaviour
     /// </summary>
     public void BuyAutoGatherUpgrade()
     {
-        if (AutoGathererUpgradeLevel < MaxUpgradeLevel && TakeResources(UpgradePrice))
+        if (SaveGame.AutoGatherUpgradeLevel < MaxUpgradeLevel && SaveGame.TakeResources(UpgradePrice))
         {
-            ++AutoGathererUpgradeLevel;
+            ++SaveGame.AutoGatherUpgradeLevel;
 
             UIManager.Instance.UpdateUpgradesItems(); // maj UI
+            UIManager.Instance.UpdateResources();
         }
     }
 
     #endregion
 
 
-    #region Gestion des ressources
+    
 
-    /// <summary>
-    /// Méthode pour tenter de prendre une quantité de ressources.
-    /// Si elles sont disponibles, la quantité est déduite.
-    /// </summary>
-    /// <param name="price">Quantité de ressources à prendre.</param>
-    /// <returns>True si suffisamment de ressources, False sinon.</returns>
-    public bool TakeResources(int price)
-    {
-        bool enoughResources = (Resources >= price);
-
-        if (enoughResources)
-        {
-            _resources -= price;
-            UIManager.Instance.UpdateResources(); // maj UI
-        }
-
-        return enoughResources;
-    }
-
-    /// <summary>
-    /// Ajout d'une quantité de ressources.
-    /// </summary>
-    /// <param name="nbr">Quantité de ressources à ajouter.</param>
-    public void AddResources(int nbr)
-    {
-        _resources += nbr;
-        UIManager.Instance.UpdateResources(); // maj UI
-    }
-
-    #endregion
-
-
-    // propriétés
 
     #region Propriétés
 
     public static GameManager Instance { get => _instance; set => _instance = value; }
 
-    public int Resources { get => _resources; set => _resources = value; }
-    public int ClickUpgradeLevel { get => _clickUpgradeLevel; set => _clickUpgradeLevel = value; }
-    public int AutoGathererUpgradeLevel { get => _autoGatherUpgradeLevel; set => _autoGatherUpgradeLevel = value; }
+    //public int Resources { get => _resources; set => _resources = value; }
+    //public int ClickUpgradeLevel { get => _clickUpgradeLevel; set => _clickUpgradeLevel = value; }
+   // public int AutoGathererUpgradeLevel { get => _autoGatherUpgradeLevel; set => _autoGatherUpgradeLevel = value; }
     public int AutoGatherTime { get => _autoGatherTime; set => _autoGatherTime = value; }
     public int UpgradePrice { get => _upgradePrice; set => _upgradePrice = value; }
     public int MaxUpgradeLevel { get => _maxUpgradeLevel; set => _maxUpgradeLevel = value; }
+    public SaveGameModel SaveGame { get => _saveGame; set => _saveGame = value; }
 
     #endregion
 }

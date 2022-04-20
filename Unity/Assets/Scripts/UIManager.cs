@@ -53,27 +53,27 @@ public class UIManager : MonoBehaviour
     {
         if(_resourcesText != null)
         {
-            _resourcesText.SetText(GameManager.Instance.Resources.ToString());
+            _resourcesText.SetText(GameManager.Instance.SaveGame.Resources.ToString());
         }
     }
 
 
     public void UpdateUpgradesItems()
     {
-        SetUpgradesText(_clickUpgradeDescriptionText, $"{GameManager.Instance.CalculateClickGather()} per click",
-                        _clickUpgradeLevelText, GameManager.Instance.ClickUpgradeLevel,
+        SetUpgradesText(_clickUpgradeDescriptionText, $"{GameManager.Instance.SaveGame.CalculateClickGatherRessources()} per click",
+                        _clickUpgradeLevelText, GameManager.Instance.SaveGame.ClickUpgradeLevel,
                         _clickUpgradePriceText);
 
-        SetUpgradesText(_autoGatherUpgradeDescriptionText, $"{GameManager.Instance.CalculateAutoGather()} every {GameManager.Instance.AutoGatherTime}s",
-                        _autoGatherUpgradeLevelText, GameManager.Instance.AutoGathererUpgradeLevel,
+        SetUpgradesText(_autoGatherUpgradeDescriptionText, $"{GameManager.Instance.SaveGame.CalculateAutoGatherRessources()} every {GameManager.Instance.AutoGatherTime}s",
+                        _autoGatherUpgradeLevelText, GameManager.Instance.SaveGame.AutoGatherUpgradeLevel,
                         _autoGatherUpgradePriceText);
 
-        if(_clickUpgradeButton != null && GameManager.Instance.ClickUpgradeLevel >= GameManager.Instance.MaxUpgradeLevel)
+        if(_clickUpgradeButton != null && GameManager.Instance.SaveGame.ClickUpgradeLevel >= GameManager.Instance.MaxUpgradeLevel)
         {
             _clickUpgradeButton.enabled = false;
         }
 
-        if (_autoGatherUpgradeButton != null && GameManager.Instance.AutoGathererUpgradeLevel >= GameManager.Instance.MaxUpgradeLevel)
+        if (_autoGatherUpgradeButton != null && GameManager.Instance.SaveGame.AutoGatherUpgradeLevel >= GameManager.Instance.MaxUpgradeLevel)
         {
             _autoGatherUpgradeButton.enabled = false;
         }
@@ -221,12 +221,6 @@ public class UIManager : MonoBehaviour
         return false;
     }
 
-
-
-    public void LoadPopupClick()
-    {
-
-    }
 
 
     public static UIManager Instance { get => _instance; set => _instance = value; }
