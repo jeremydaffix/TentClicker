@@ -35,6 +35,7 @@ namespace clicker
             else
             {
                 UIManager.Instance.HideUpgradeMenu();
+                UIManager.Instance.HidePopup();
             }
         }
 

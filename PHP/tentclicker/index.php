@@ -1,8 +1,6 @@
 <?php
 
 	require_once 'config.php';
-
-	//print_r($_POST);
 	
 	$pdo = ConnectDatabase();
 	DispatchRequest();
@@ -18,9 +16,7 @@
 		try
 		{
 			$connection = "$config_sgbdr:host=$config_host;dbname=$config_db";
-			
-			//echo($connection);
-			
+	
 			//$arrExtraParam= array(PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES utf8");
 			$pdo = new PDO($connection, $config_user, $config_password/*, $arrExtraParam*/);
 			$pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
@@ -85,6 +81,8 @@
 					':autoGatherUpgradeLevel' => $autoGatherUpgradeLevel
 				]);
 				
+				$statement = null;
+				
 				die($id);
 			}
 			
@@ -104,12 +102,59 @@
 
 	function GetGame()
 	{
+		global $pdo;
+
+		if(isset($_GET["id"]) && $_GET["id"] != "" && strlen($_GET["id"]) == 6)
+		{
+			$id = strtoupper($_GET["id"]);
+			
+			//echo "GET GAME WITH ID $id";
+			
+			$sql = 'SELECT * FROM game WHERE id=:id';
+			
+			try
+			{
+				$statement = $pdo->prepare($sql);
+				 
+				$statement->execute([
+					':id' => $id
+				]);
+				 
+				$arrAll = $statement->fetchAll(PDO::FETCH_ASSOC);
+				
+				if($statement->rowCount() != 1)
+				{
+					header("HTTP/1.0 404 Not Found");
+					die();
+				}
+				 
+				$statement->closeCursor();
+				$statement = NULL;
+				
+				header('Content-Type: application/json');
+				die(json_encode($arrAll[0]));
+			}
+			
+			catch(PDOException $e)
+			{
+				//$msg = 'PDO ERROR in ' . $e->getFile() . ' L.' . $e->getLine() . ' : ' . $e->getMessage();
+				//die($msg);
+				header("HTTP/1.0 404 Not Found");
+				die();
+			}
+		}
 		
+		else
+		{
+			header("HTTP/1.0 404 Not Found");
+			die();
+		}
 	}
 	
 
 	function GenerateID()
 	{
+		//return "AAA000"; // pour tester les erreurs sans identifiant unique
 		$id = strtoupper(substr(uniqid(), -6));
 		return $id;
 	}

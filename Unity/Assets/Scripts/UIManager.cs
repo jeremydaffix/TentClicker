@@ -1,7 +1,9 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
@@ -15,6 +17,12 @@ public class UIManager : MonoBehaviour
     [SerializeField] TMP_Text _clickUpgradeDescriptionText, _clickUpgradeLevelText, _clickUpgradePriceText;
     [SerializeField] TMP_Text _autoGatherUpgradeDescriptionText, _autoGatherUpgradeLevelText, _autoGatherUpgradePriceText;
     [SerializeField] Button _clickUpgradeButton, _autoGatherUpgradeButton;
+
+    [SerializeField] GameObject _popup;
+
+    [SerializeField] TMP_Text _popupTitle, _popupMessage;
+    [SerializeField] TMP_InputField _popupInput;
+    [SerializeField] Button _popupOkButton;
 
 
     void OnEnable()
@@ -32,6 +40,7 @@ public class UIManager : MonoBehaviour
     void Start()
     {
         HideUpgradeMenu();
+        HidePopup();
     }
 
     void Update()
@@ -91,7 +100,7 @@ public class UIManager : MonoBehaviour
 
     public void ShowUpgradeMenu()
     {
-        //Debug.Log("SHOW MENU");
+        HidePopup();
 
         if (_upgradeMenu != null && !_upgradeMenu.activeInHierarchy)
         {
@@ -102,13 +111,97 @@ public class UIManager : MonoBehaviour
 
     public void HideUpgradeMenu()
     {
-        //Debug.Log("HIDE MENU");
-
         if (_upgradeMenu != null && _upgradeMenu.activeInHierarchy)
         {
             _upgradeMenu.SetActive(false);
         }
     }
+
+
+    public void ShowPopup()
+    {
+        HideUpgradeMenu();
+
+        if (_popup != null && !_popup.activeInHierarchy)
+        {
+            _popup.SetActive(true);
+        }
+    }
+
+    public void ShowPopup(string title, string message, string input = "", bool inputReadOnly = true, bool okButtonVisible = false, UnityAction okButtonAction = null)
+    {
+        SetPopupTitle(title);
+        SetPopupMessage(message);
+        SetPopupInput(input, inputReadOnly);
+        SetPopupOkButton(okButtonVisible, okButtonAction);
+
+        ShowPopup();
+    }
+
+    public void HidePopup()
+    {
+        if (_popup != null && _popup.activeInHierarchy)
+        {
+            _popup.SetActive(false);
+        }
+    }
+
+    public void SetPopupTitle(string title)
+    {
+        if(_popupTitle != null)
+        {
+            _popupTitle.SetText(title);
+        }
+    }
+
+    public void SetPopupMessage(string msg)
+    {
+        if (_popupMessage != null)
+        {
+            _popupMessage.SetText(msg);
+        }
+    }
+
+    public void SetPopupInput(string text, bool readOnly = true)
+    {
+        if (_popupInput != null)
+        {
+            _popupInput.text = text;
+            _popupInput.readOnly = readOnly;
+            _popupInput.characterLimit = 6;
+
+        }
+    }
+
+    public string GetPopupInput()
+    {
+        return _popupInput == null ? "" : _popupInput.text;
+    }
+
+    public void SetPopupOkButton(bool visible = false, UnityAction action = null)
+    {
+        if(_popupOkButton != null)
+        {
+            _popupOkButton.gameObject.SetActive(visible);
+
+            _popupOkButton.onClick.RemoveAllListeners();
+
+            if(visible)
+            {
+                _popupOkButton.onClick.AddListener(action);
+            }
+        }
+    }
+
+
+
+    public void ShowLoadPopup()
+    {
+        ShowPopup("Load game", "Please enter your save ID", "", false, true, () => { SaveManager.Instance.LoadGame(GetPopupInput()); });
+    }
+
+
+
 
 
     public bool IsPointerOverUI()
@@ -126,6 +219,13 @@ public class UIManager : MonoBehaviour
             }
         }
         return false;
+    }
+
+
+
+    public void LoadPopupClick()
+    {
+
     }
 
 

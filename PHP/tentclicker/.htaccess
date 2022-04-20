@@ -1,0 +1,5 @@
+RewriteEngine On # Activer le module Rewrite
+# game ou game/ + POST pour enregistrer une sauvegarde
+RewriteRule ^game.?$ index.php [NC,L]
+# game/:id pour charger une sauvegarde
+RewriteRule ^game/(.+)$ index.php?id=$1

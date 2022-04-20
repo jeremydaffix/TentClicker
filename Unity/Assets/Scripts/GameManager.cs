@@ -129,7 +129,7 @@ public class GameManager : MonoBehaviour
 
     public static GameManager Instance { get => _instance; set => _instance = value; }
 
-    public int Resources { get => _resources; /*set => _resources = value;*/ }
+    public int Resources { get => _resources; set => _resources = value; }
     public int ClickUpgradeLevel { get => _clickUpgradeLevel; set => _clickUpgradeLevel = value; }
     public int AutoGathererUpgradeLevel { get => _autoGatherUpgradeLevel; set => _autoGatherUpgradeLevel = value; }
     public int AutoGatherTime { get => _autoGatherTime; set => _autoGatherTime = value; }
