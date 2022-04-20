@@ -80,7 +80,7 @@ public class SaveManager : MonoBehaviour
  
     IEnumerator LoadCoroutine(string uri)
     {
-        Debug.Log("LOAD URI: " + uri);
+        //Debug.Log("LOAD URI: " + uri);
 
         using (UnityWebRequest webRequest = UnityWebRequest.Get(uri))
         {
@@ -99,7 +99,7 @@ public class SaveManager : MonoBehaviour
 
             else
             {
-                Debug.Log(":\nReceived: " + webRequest.downloadHandler.text);
+                //Debug.Log(":\nReceived: " + webRequest.downloadHandler.text);
 
                 SaveGameSerializable game = JsonUtility.FromJson<SaveGameSerializable>(webRequest.downloadHandler.text);
 
@@ -107,11 +107,17 @@ public class SaveManager : MonoBehaviour
                 {
                     UIManager.Instance.SetPopupMessage("Success!");
 
-                    Debug.Log(game.ToString());
+                    //Debug.Log(game.ToString());
 
-                    GameManager.Instance.SaveGame.ClickUpgradeLevel = game.click_level;
-                    GameManager.Instance.SaveGame.AutoGatherUpgradeLevel = game.autogather_level;
-                    GameManager.Instance.SaveGame.Resources = game.score;
+                    DecorationManager.Instance.ClearGrid();
+
+
+                    GameManager.Instance.SaveGame = new SaveGameModel(game.score, game.click_level, game.autogather_level);
+
+                    foreach(DecorationSerializable deco in game.decorations)
+                    {
+                        DecorationManager.Instance.AddDecoration((DecorationModel.DecorationType)deco.type, deco.row, deco.col);
+                    }
 
                     UIManager.Instance.UpdateUpgradesItems();
                     UIManager.Instance.UpdateResources();   

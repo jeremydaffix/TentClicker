@@ -96,7 +96,7 @@ public class DecorationManager : MonoBehaviour
     }
 
 
-    void AddDecoration(DecorationModel.DecorationType type, int row, int col)
+    public void AddDecoration(DecorationModel.DecorationType type, int row, int col)
     {
         if (_gridRoot != null && _prefabsDictionary.ContainsKey(type))
         {
@@ -123,6 +123,8 @@ public class DecorationManager : MonoBehaviour
 
     public void ClearGrid()
     {
+        //GameManager.Instance.SaveGame.Decorations.Clear();
+
         if(_gridRoot != null)
         {
             foreach(Transform row in _gridRoot)
@@ -137,4 +139,8 @@ public class DecorationManager : MonoBehaviour
             }
         }
     }
+
+
+    public static DecorationManager Instance { get => _instance; set => _instance = value; }
+
 }

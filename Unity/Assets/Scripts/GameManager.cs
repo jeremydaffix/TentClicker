@@ -18,7 +18,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] int _maxUpgradeLevel = 10; // limite du niveau des upgrades
 
     [Header("Game variables (displayed for debugging purposes)")]
-    [SerializeField] SaveGameModel _saveGame;
+    [SerializeField] SaveGameModel _saveGame = new SaveGameModel();
     #endregion
 
 
