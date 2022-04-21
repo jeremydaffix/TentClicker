@@ -12,7 +12,7 @@ Les 3 parties ont été traitées, ainsi que l'ensemble des fonctionnalités dem
 
 ## Remarques sur le serveur PHP
 Je me suis inspiré de l'architecture REST pour concevoir l'API. Celle-ci associe un format d'URI et l'utilisation des méthodes du protocole HTTP (POST, GET, PUT...) pour modifier et accéder à des ressources.
-Dans le cadre de cet API simplifiée cela donne donc :
+Dans le cadre de cette API simplifiée cela donne donc :
 - http://localhost/tentclicker/game/ + Données passées par POST afin de créer une nouvelle sauvegarde.
 - http://localhost/tentclicker/game/:id (redirigé en game?id=:id) pour accéder à une sauvegarde existante (retournée au format JSON).
 
