@@ -3,7 +3,9 @@
 ## Mise en route
 -  Projet Unity : Ouvrir le répertoire *Unity/* avec Unity 2019.4.32f1.
 - Serveur web : Copier le répertoire *PHP/tentclicker/* dans le *www/* de wampserver (testé avec l'installation par défaut de wampserver). Ne pas changer le nom du répertoire.
-- Base de données : importer *SQL/tentclicker.sql* dans une base de données MySQL nommée **tentclicker**, avec l'encodage par défaut (alternative : modifier *PHP/tentclicker/config.php* pour changer la base de données utilisée, ou l'utilisateur / mot de passe).
+- Base de données :
+-- Importer *SQL/tentclicker_database.sql* avec phpmyadmin.
+-- OU importer *SQL/tentclicker.sql* dans une base de données MySQL nommée **tentclicker** (il est possible de modifier *PHP/tentclicker/config.php* pour changer la base de données utilisée, ou l'utilisateur / mot de passe).
 
 ## Fonctionnalités implémentées
 Les 3 parties ont été traitées, ainsi que l'ensemble des fonctionnalités demandées.
@@ -33,3 +35,4 @@ Le moteur InnoDB, plus performant que MyISAM, a été sélectionné pour ces tab
 - *SaveManager* contient les méthodes nécessaires à la sauvegarde / le chargement, notamment les appels à l'API web.
 - *DecorationManager*  s'occupe de la gestion des décorations, de leur ajout dans la scène, du nettoyage de la grille lors d'un chargement, de la mise à jour du modèle...
 - L'aspect de l'UI n'est pas très raffiné, mais utilise une palette de couleurs : https://coolors.co/palette/d9ed92-b5e48c-99d98c-76c893-52b69a-34a0a4-168aad-1a759f-1e6091-184e77
+- Pas de sons, mais j'ai ajouté quelques feedbacks utilisateurs en utilisant un asset de tweening open source (DOTween).

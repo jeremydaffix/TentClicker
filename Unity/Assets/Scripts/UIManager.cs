@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
+using DG.Tweening;
 
 namespace TentClicker
 {
@@ -24,6 +25,7 @@ namespace TentClicker
         [SerializeField] Button _loadButton; // bouton load
         [SerializeField] Button _saveButton; // bouton save
         [SerializeField] Button _openMenuButton; // bouton ouverture menu upgrades
+        [SerializeField] GameObject _tent; // objet de la tente
         [Header("UI Elements in menu")]
         // textes click upgrade
         [SerializeField] TMP_Text _clickUpgradeDescriptionText;
@@ -44,6 +46,10 @@ namespace TentClicker
 
         #endregion
 
+        #region Variables
+        Color _scoreColor;
+        #endregion
+
         #region Evénements MonoBehaviour
 
         void OnEnable()
@@ -59,6 +65,11 @@ namespace TentClicker
 
         void Start()
         {
+            if(_resourcesText != null)
+            {
+                _scoreColor = _resourcesText.color;
+            }
+
             // on cache tout au démarrage
             HideUpgradeMenu();
             HidePopup();
@@ -78,7 +89,15 @@ namespace TentClicker
         {
             if (_resourcesText != null)
             {
-                _resourcesText.SetText(GameManager.Instance.SaveGame.Resources.ToString("000000"));
+                string newText = GameManager.Instance.SaveGame.Resources.ToString("000000");
+
+                if (newText != _resourcesText.text)
+                {
+                    //_resourcesText.SetText(newText);
+                    _resourcesText.DOComplete();
+                    _resourcesText.DOText(newText, 0.3f, true, ScrambleMode.Numerals);
+                    _resourcesText.DOColor(Color.white, 0.15f).OnComplete(() => { _resourcesText.DOColor(_scoreColor, 0.15f); });
+                }
             }
         }
 
@@ -142,6 +161,9 @@ namespace TentClicker
                 {
                     _openMenuButton.interactable = false;
                 }
+
+                _upgradeMenu.transform.GetChild(0).DOComplete();
+                _upgradeMenu.transform.GetChild(0).DOShakeScale(0.75f, 0.05f, 10);
             }
         }
 
@@ -186,6 +208,9 @@ namespace TentClicker
                     _saveButton.interactable = false;
                     _loadButton.interactable = false;
                 }
+
+                _popup.transform.GetChild(0).DOComplete();
+                _popup.transform.GetChild(0).DOShakeScale(0.75f, 0.05f, 10);
             }
         }
 
@@ -304,6 +329,19 @@ namespace TentClicker
             }
             return false;
         }
+
+        /// <summary>
+        /// Feedback graphique sur la tente.
+        /// </summary>
+        public void FeedbackTent()
+        {
+            if(_tent != null)
+            {
+                _tent.transform.DOComplete();
+                _tent.transform.DOPunchScale(new Vector3(1.01f, 1.01f, 1.01f), 0.25f);
+            }
+        }
+
         #endregion
 
         #region Propriétés

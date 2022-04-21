@@ -67,6 +67,7 @@ namespace TentClicker
         {
             SaveGame.AddResources(SaveGame.CalculateClickGatherRessources()); // récupération des ressources selon le niveau de l'upgrade
             UIManager.Instance.UpdateResources();
+            UIManager.Instance.FeedbackTent();
         }
 
         /// <summary>

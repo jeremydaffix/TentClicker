@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using UnityEngine;
+using DG.Tweening;
 
 namespace TentClicker
 {
@@ -130,6 +131,9 @@ namespace TentClicker
                     deco.transform.SetParent(parent);
                     deco.transform.localPosition = new Vector3(0f, 0.5f, 0f);
                     deco.transform.localRotation = Quaternion.identity;
+
+                    //deco.transform.DOComplete();
+                    deco.transform.DOPunchScale(new Vector3(1.01f, 1.01f, 1.01f), 0.25f);
 
                     // maj du modèle
                     GameManager.Instance.SaveGame.Decorations.Add(new DecorationModel(type, row, col));
