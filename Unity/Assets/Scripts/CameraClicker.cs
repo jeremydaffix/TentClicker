@@ -3,7 +3,7 @@ using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.EventSystems;
 
-namespace clicker
+namespace TentClicker
 {
     /// <summary>
     /// Composant permettant de gérer les clics sur la tente (pour gagner des ressources) et en dehors de l'UI.
